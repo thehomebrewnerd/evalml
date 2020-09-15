@@ -4,19 +4,20 @@ from .data_check import DataCheck
 from .data_check_message import DataCheckWarning
 
 from evalml.utils.gen_utils import numeric_and_boolean_dtypes
-
+from sklearn.feature_selection import mutual_info_classif, mutual_info_regression
 
 class LabelLeakageDataCheck(DataCheck):
     """Check if any of the features are highly correlated with the target."""
 
-    def __init__(self, pct_corr_threshold=0.95):
+    def __init__(self, pct_corr_threshold=0.95, method='correlation'):
         """Check if any of the features are highly correlated with the target.
 
         Currently only supports binary and numeric targets and features.
 
         Arguments:
             pct_corr_threshold (float): The correlation threshold to be considered leakage. Defaults to 0.95.
-
+            method (string): The method used to determine label leakage. Currently supports `correlation` and
+                `mutual_info`. Defaults to `correlation`.
         """
         if pct_corr_threshold < 0 or pct_corr_threshold > 1:
             raise ValueError("pct_corr_threshold must be a float between 0 and 1, inclusive.")
