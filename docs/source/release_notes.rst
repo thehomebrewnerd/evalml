@@ -4,6 +4,7 @@ Release Notes
 **Future Releases**
     * Enhancements
         * Added `get_feature_names` on `OneHotEncoder` :pr:`1193`
+        * Refined `make_pipeline_from_components` implementation :pr:`1204`
     * Fixes
         * Updated GitHub URL after migration to Alteryx GitHub org :pr:`1207`
     * Changes
