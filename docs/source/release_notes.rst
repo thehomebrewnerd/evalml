@@ -9,6 +9,7 @@ Release Notes
     * Fixes
         * Updated GitHub URL after migration to Alteryx GitHub org :pr:`1207`
         * Changed Problem Type enum to be more similar to the string name :pr:`1208`
+        * Added conversion of all bool to categories internally for imputers :pr:`1215`
     * Changes
     * Documentation Changes
         * Included description of how to access the component instances and features for pipeline user guide :pr:`1163`
