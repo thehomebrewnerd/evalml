@@ -67,6 +67,10 @@ class Imputer(Transformer):
 
         self._all_null_cols = set(X.columns) - set(X.dropna(axis=1, how='all').columns)
         X_copy = X.copy()
+
+        if (X.dtypes == bool).all():
+            X_copy = X_copy.astype('category')
+
         X_null_dropped = X_copy.drop(self._all_null_cols, axis=1, errors='ignore')
 
         X_numerics = X_null_dropped.select_dtypes(include=numeric_dtypes)
@@ -94,6 +98,11 @@ class Imputer(Transformer):
         if not isinstance(X, pd.DataFrame):
             X = pd.DataFrame(X)
         X_null_dropped = X.copy()
+
+        all_bool = (X.dtypes == bool).all()
+        if all_bool:
+            X_null_dropped = X_null_dropped.astype('category')
+
         X_null_dropped.drop(self._all_null_cols, inplace=True, axis=1, errors='ignore')
         X_null_dropped.reset_index(inplace=True, drop=True)
         if X_null_dropped.empty:
@@ -106,5 +115,8 @@ class Imputer(Transformer):
         if self._categorical_cols is not None and len(self._categorical_cols) > 0:
             X_categorical = X_null_dropped[self._categorical_cols]
             X_null_dropped[X_categorical.columns] = self._categorical_imputer.transform(X_categorical)
+
+        if all_bool:
+            X_null_dropped = X_null_dropped.astype(bool)
 
         return X_null_dropped
